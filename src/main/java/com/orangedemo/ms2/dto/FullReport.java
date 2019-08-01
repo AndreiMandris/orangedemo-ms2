@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Objects;
 
 public final class FullReport {
-    private final List<ReportLineDto> report;
+    private final List<ReportLine> report;
 
-    public FullReport(List<ReportLineDto> report) {
+    public FullReport(List<ReportLine> report) {
         this.report = cloneDeep(report);
     }
 
-    public List<ReportLineDto> getReport() {
+    public List<ReportLine> getReport() {
         return cloneDeep(report);
     }
 
-    private List cloneDeep(List<ReportLineDto> report) {
+    private List cloneDeep(List<ReportLine> report) {
         List toReturnList = new ArrayList<>();
-        for (ReportLineDto line : report) {
+        for (ReportLine line : report) {
             toReturnList.add(line.clone());
         }
         return toReturnList;

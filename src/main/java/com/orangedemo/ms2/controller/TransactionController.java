@@ -3,6 +3,8 @@ package com.orangedemo.ms2.controller;
 import com.orangedemo.ms2.dto.TransactionDto;
 import com.orangedemo.ms2.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,7 +15,8 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping
-    public void saveTransaction(@RequestBody TransactionDto transactionDto) {
-        transactionService.createTransaction(transactionDto);
+    public ResponseEntity<TransactionDto> saveTransaction(@RequestBody TransactionDto transactionDto) {
+        transactionService.saveTransaction(transactionDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(transactionDto);
     }
 }

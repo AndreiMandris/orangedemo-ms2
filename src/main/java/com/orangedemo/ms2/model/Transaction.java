@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Entity
+@Table(name = "transactions")
 public class Transaction {
 
     @Id

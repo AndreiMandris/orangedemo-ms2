@@ -5,13 +5,11 @@ import com.orangedemo.ms2.model.TransactionType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 public class TransactionDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private BigInteger id;
     private TransactionType type;
     private String iban;
     private String cnp;
@@ -22,8 +20,7 @@ public class TransactionDto implements Serializable {
     public TransactionDto() {
     }
 
-    public TransactionDto(BigInteger id, TransactionType type, String iban, String cnp, String name, String desc, BigDecimal sum) {
-        this.id = id;
+    public TransactionDto(TransactionType type, String iban, String cnp, String name, String desc, BigDecimal sum) {
         this.type = type;
         this.iban = iban;
         this.cnp = cnp;
@@ -43,7 +40,7 @@ public class TransactionDto implements Serializable {
         return transaction;
     }
 
-    public static TransactionDto fromTransactionToDto(Transaction transaction) {
+    public static TransactionDto toTransactionDto(Transaction transaction) {
         TransactionDto transactionDto = new TransactionDto();
         transactionDto.setCnp(transaction.getCnp());
         transactionDto.setIban(transaction.getIban());
@@ -52,14 +49,6 @@ public class TransactionDto implements Serializable {
         transactionDto.setSum(transaction.getSum());
         transactionDto.setType(transaction.getType());
         return transactionDto;
-    }
-
-    public BigInteger getId() {
-        return id;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
     }
 
     public TransactionType getType() {
@@ -113,8 +102,7 @@ public class TransactionDto implements Serializable {
     @Override
     public String toString() {
         return "TransactionDto{" +
-                "id=" + id +
-                ", type=" + type +
+                "type=" + type +
                 ", iban='" + iban + '\'' +
                 ", cnp='" + cnp + '\'' +
                 ", name='" + name + '\'' +

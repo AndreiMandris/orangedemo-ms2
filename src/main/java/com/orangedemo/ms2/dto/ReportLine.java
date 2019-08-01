@@ -3,7 +3,7 @@ package com.orangedemo.ms2.dto;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public final class ReportLineDto {
+public final class ReportLine {
 
     private String iban;
     private int noOfTransactions;
@@ -13,14 +13,14 @@ public final class ReportLineDto {
     private BigDecimal walletToIbanSum;
     private BigDecimal walletToWalletSum;
 
-    private ReportLineDto(){
+    private ReportLine(){
     }
 
     public static class ReportBuilder {
-        ReportLineDto report;
+        ReportLine report;
 
         public ReportBuilder() {
-            this.report = new ReportLineDto();
+            this.report = new ReportLine();
         }
 
         public ReportBuilder withIban(String iban) {
@@ -58,7 +58,7 @@ public final class ReportLineDto {
             return this;
         }
 
-        public ReportLineDto build() {
+        public ReportLine build() {
             return report;
         }
 
@@ -96,7 +96,7 @@ public final class ReportLineDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReportLineDto that = (ReportLineDto) o;
+        ReportLine that = (ReportLine) o;
         return noOfTransactions == that.noOfTransactions &&
                 Objects.equals(iban, that.iban) &&
                 Objects.equals(cnp, that.cnp) &&
@@ -116,7 +116,7 @@ public final class ReportLineDto {
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {
-            ReportLineDto lineDto = new ReportLineDto();
+            ReportLine lineDto = new ReportLine();
             lineDto.cnp = this.cnp;
             lineDto.iban = this.iban;
             lineDto.ibanToIbanSum = this.ibanToIbanSum;

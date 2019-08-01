@@ -12,7 +12,7 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionDao transactionDao;
 
     @Override
-    public void createTransaction(TransactionDto transactionDto) {
+    public void saveTransaction(TransactionDto transactionDto) {
         transactionDao.save(transactionDto.toTransaction());
     }
 }

@@ -19,7 +19,6 @@ public class ValidatedTrServiceImpl implements ValidatedTrService{
     @JmsListener(destination = "standalone.queue")
     public void createValidatedTransaction(String transactionJson) {
         TransactionDto transactionDto = gson.fromJson(transactionJson, TransactionDto.class);
-        System.out.println("Received [" + transactionDto + "]");
-        transactionService.createTransaction(transactionDto);
+        transactionService.saveTransaction(transactionDto);
     }
 }

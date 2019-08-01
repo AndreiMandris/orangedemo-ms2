@@ -2,17 +2,19 @@ package com.orangedemo.ms2;
 
 import com.orangedemo.ms2.dao.TransactionDao;
 import com.orangedemo.ms2.dto.FullReport;
-import com.orangedemo.ms2.dto.ReportLineDto;
+import com.orangedemo.ms2.dto.ReportLine;
 import com.orangedemo.ms2.model.Transaction;
 import com.orangedemo.ms2.model.TransactionType;
 import com.orangedemo.ms2.service.ReportService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -21,6 +23,7 @@ import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles("test")
 public class ReportServiceImplTest {
 
     @MockBean
@@ -29,8 +32,8 @@ public class ReportServiceImplTest {
     @Autowired
     ReportService reportService;
 
-    @Test
-    public void contextLoads() {
+    @Before
+    public void mockGetAllByCnp() {
         Mockito.when(transactionDao.getAllByCnp("1901223211419")).thenReturn(
                 Arrays.asList(
                         new Transaction(new BigInteger("0"), TransactionType.WALLET_TO_WALLET, "RO09BCYP0000001234567890",
@@ -45,8 +48,11 @@ public class ReportServiceImplTest {
                                 "1901223211419", "Marius Popa", "car payment 2", new BigDecimal(3500))
                 )
         );
+    }
 
-        ReportLineDto expectedReportLine1 = new ReportLineDto.ReportBuilder()
+    @Test
+    public void testGetReportByCnp(){
+        ReportLine expectedReportLine1 = new ReportLine.ReportBuilder()
                 .withCnp("1901223211419")
                 .withIban("RO09BCYP0000001234567891")
                 .withNoOfTransactions(1)
@@ -56,7 +62,7 @@ public class ReportServiceImplTest {
                 .withWalletToWalletSum(new BigDecimal(0))
                 .build();
 
-        ReportLineDto expectedReportLine2 = new ReportLineDto.ReportBuilder()
+        ReportLine expectedReportLine2 = new ReportLine.ReportBuilder()
                 .withCnp("1901223211419")
                 .withIban("RO09BCYP0000001234567890")
                 .withNoOfTransactions(4)
@@ -70,7 +76,6 @@ public class ReportServiceImplTest {
                 Arrays.asList(expectedReportLine1, expectedReportLine2)
         );
 
-        Assert.assertTrue(expectedFullReport.equals(reportService.getReportByCnp("1901223211419")));
+        Assert.assertEquals(expectedFullReport, reportService.getReportByCnp("1901223211419"));
     }
-
 }
