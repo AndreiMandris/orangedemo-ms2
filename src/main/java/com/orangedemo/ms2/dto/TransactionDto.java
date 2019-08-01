@@ -1,5 +1,6 @@
 package com.orangedemo.ms2.dto;
 
+import com.orangedemo.ms2.exceptions.UnsupportedTransactionTypeException;
 import com.orangedemo.ms2.model.Transaction;
 import com.orangedemo.ms2.model.TransactionType;
 
@@ -10,7 +11,7 @@ public class TransactionDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private TransactionType type;
+    private String type;
     private String iban;
     private String cnp;
     private String name;
@@ -20,7 +21,7 @@ public class TransactionDto implements Serializable {
     public TransactionDto() {
     }
 
-    public TransactionDto(TransactionType type, String iban, String cnp, String name, String desc, BigDecimal sum) {
+    public TransactionDto(String type, String iban, String cnp, String name, String desc, BigDecimal sum) {
         this.type = type;
         this.iban = iban;
         this.cnp = cnp;
@@ -31,13 +32,22 @@ public class TransactionDto implements Serializable {
 
     public Transaction toTransaction() {
         Transaction transaction = new Transaction();
-        transaction.setType(this.getType());
+        transaction.setType(resolveTransactionType(this.getType()));
         transaction.setIban(this.getIban());
         transaction.setCnp(this.getCnp());
         transaction.setName(this.getName());
         transaction.setDesc(this.getDesc());
         transaction.setSum(this.getSum());
         return transaction;
+    }
+
+    private static TransactionType resolveTransactionType(String type) {
+        for (TransactionType transactionType : TransactionType.values()) {
+            if (transactionType.name().equals(type)) {
+                return transactionType;
+            }
+        }
+        throw new UnsupportedTransactionTypeException();
     }
 
     public static TransactionDto toTransactionDto(Transaction transaction) {
@@ -47,15 +57,15 @@ public class TransactionDto implements Serializable {
         transactionDto.setDesc(transaction.getDesc());
         transactionDto.setName(transaction.getName());
         transactionDto.setSum(transaction.getSum());
-        transactionDto.setType(transaction.getType());
+        transactionDto.setType(transaction.getType().name());
         return transactionDto;
     }
 
-    public TransactionType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(TransactionType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

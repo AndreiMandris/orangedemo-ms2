@@ -52,16 +52,16 @@ public class ReportServiceImpl implements ReportService {
 
         for (TransactionDto transactionDto : transactionDtos) {
             switch (transactionDto.getType()) {
-                case IBAN_TO_IBAN:
+                case "IBAN_TO_IBAN":
                     ibanToIbanSum = ibanToIbanSum.add(transactionDto.getSum());
                     break;
-                case IBAN_TO_WALLET:
+                case "IBAN_TO_WALLET":
                     ibanToWalletSum = ibanToWalletSum.add(transactionDto.getSum());
                     break;
-                case WALLET_TO_IBAN:
+                case "WALLET_TO_IBAN":
                     walletToIbanSum = walletToIbanSum.add(transactionDto.getSum());
                     break;
-                case WALLET_TO_WALLET:
+                case "WALLET_TO_WALLET":
                     walletToWalletSum = walletToWalletSum.add(transactionDto.getSum());
                     break;
                 default:

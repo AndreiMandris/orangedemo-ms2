@@ -13,7 +13,7 @@ public final class ReportLine {
     private BigDecimal walletToIbanSum;
     private BigDecimal walletToWalletSum;
 
-    private ReportLine(){
+    private ReportLine() {
     }
 
     public static class ReportBuilder {

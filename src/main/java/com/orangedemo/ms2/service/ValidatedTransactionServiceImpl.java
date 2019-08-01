@@ -7,7 +7,7 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ValidatedTrServiceImpl implements ValidatedTrService{
+public class ValidatedTransactionServiceImpl implements ValidatedTransactionService {
 
     @Autowired
     private TransactionService transactionService;
