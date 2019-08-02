@@ -1,6 +1,13 @@
 package com.orangedemo.ms2.model;
 
-import javax.persistence.*;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 

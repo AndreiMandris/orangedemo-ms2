@@ -44,21 +44,16 @@ public class ReportServiceImpl implements ReportService {
         String iban = transactionDtos.get(0).getIban();
         int noOfTransactions = transactionDtos.size();
         String cnp = transactionDtos.get(0).getCnp();
+
         Map<TransactionType, BigDecimal> sums = new HashMap<>();
         sums.put(TransactionType.IBAN_TO_IBAN, new BigDecimal(0));
         sums.put(TransactionType.IBAN_TO_WALLET, new BigDecimal(0));
         sums.put(TransactionType.WALLET_TO_IBAN, new BigDecimal(0));
         sums.put(TransactionType.WALLET_TO_WALLET, new BigDecimal(0));
+
         transactionDtos.forEach(transactionDto ->
                 sums.computeIfPresent(TransactionDto.resolveTransactionType(transactionDto.getType()),
                 (k, v) -> v.add(transactionDto.getSum())));
-//        for (TransactionDto transactionDto : transactionDtos) {
-//            sums.forEach((k, v) -> {
-//                if (k.toString().equals(transactionDto.getType())) {
-//                    v = v.add(transactionDto.getSum());
-//                }
-//            });
-//        }
 
         return new ReportLine.ReportBuilder()
                 .withCnp(cnp)

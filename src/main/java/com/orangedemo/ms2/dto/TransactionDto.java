@@ -21,15 +21,6 @@ public class TransactionDto implements Serializable {
     public TransactionDto() {
     }
 
-    public TransactionDto(String type, String iban, String cnp, String name, String desc, BigDecimal sum) {
-        this.type = type;
-        this.iban = iban;
-        this.cnp = cnp;
-        this.name = name;
-        this.desc = desc;
-        this.sum = sum;
-    }
-
     public Transaction toTransaction() {
         Transaction transaction = new Transaction();
         transaction.setType(resolveTransactionType(this.getType()));

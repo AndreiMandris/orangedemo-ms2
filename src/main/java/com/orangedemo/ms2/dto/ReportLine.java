@@ -3,21 +3,20 @@ package com.orangedemo.ms2.dto;
 import com.orangedemo.ms2.model.TransactionType;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Objects;
 import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.Collections;
+import java.util.Objects;
 
 public class ReportLine {
 
     private String iban;
     private int noOfTransactions;
     private String cnp;
-    private SumsMap sumsMap;
     private final Map<TransactionType, BigDecimal> sums;
 
     private ReportLine() {
-        sums = new HashMap<>();
+        sums = new LinkedHashMap<>();
         sums.put(TransactionType.IBAN_TO_IBAN, new BigDecimal(0));
         sums.put(TransactionType.IBAN_TO_WALLET, new BigDecimal(0));
         sums.put(TransactionType.WALLET_TO_IBAN, new BigDecimal(0));
@@ -51,7 +50,7 @@ public class ReportLine {
         }
 
         public ReportBuilder withSums(Map<TransactionType, BigDecimal> sums){
-            report.sums.forEach((k, v) -> v = sums.get(k));
+            report.sums.putAll(sums);
             return this;
         }
 

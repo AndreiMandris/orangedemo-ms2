@@ -1,7 +1,7 @@
 package com.orangedemo.ms2.controller;
 
 import com.orangedemo.ms2.dto.FullReport;
-import com.orangedemo.ms2.service.ReportServiceImpl;
+import com.orangedemo.ms2.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportController {
 
     @Autowired
-    private ReportServiceImpl reportService;
+    private ReportService reportService;
 
     @GetMapping("/{cnp}")
     public FullReport getReport(@PathVariable String cnp) {
