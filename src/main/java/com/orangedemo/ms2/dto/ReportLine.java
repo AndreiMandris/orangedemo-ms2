@@ -1,19 +1,31 @@
 package com.orangedemo.ms2.dto;
 
-import java.math.BigDecimal;
-import java.util.Objects;
+import com.orangedemo.ms2.model.TransactionType;
 
-public final class ReportLine {
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Map;
+
+public class ReportLine {
 
     private String iban;
     private int noOfTransactions;
     private String cnp;
-    private BigDecimal ibanToIbanSum;
-    private BigDecimal ibanToWalletSum;
-    private BigDecimal walletToIbanSum;
-    private BigDecimal walletToWalletSum;
+    private SumsMap sumsMap;
+    private final Map<TransactionType, BigDecimal> sums;
 
     private ReportLine() {
+        sums = new HashMap<>();
+        sums.put(TransactionType.IBAN_TO_IBAN, new BigDecimal(0));
+        sums.put(TransactionType.IBAN_TO_WALLET, new BigDecimal(0));
+        sums.put(TransactionType.WALLET_TO_IBAN, new BigDecimal(0));
+        sums.put(TransactionType.WALLET_TO_WALLET, new BigDecimal(0));
+    }
+
+    public ReportLine(Map<TransactionType, BigDecimal> sums) {
+        this.sums = Collections.unmodifiableMap(sums);
     }
 
     public static class ReportBuilder {
@@ -38,30 +50,14 @@ public final class ReportLine {
             return this;
         }
 
-        public ReportBuilder withIbanToIbanSum(BigDecimal ibanToIbanSum) {
-            report.ibanToIbanSum = ibanToIbanSum;
-            return this;
-        }
-
-        public ReportBuilder withIbanToWalletSum(BigDecimal ibanToWalletSum) {
-            report.ibanToWalletSum = ibanToWalletSum;
-            return this;
-        }
-
-        public ReportBuilder withWalletToIbanSum(BigDecimal walletToIbanSum) {
-            report.walletToIbanSum = walletToIbanSum;
-            return this;
-        }
-
-        public ReportBuilder withWalletToWalletSum(BigDecimal walletToWalletSum) {
-            report.walletToWalletSum = walletToWalletSum;
+        public ReportBuilder withSums(Map<TransactionType, BigDecimal> sums){
+            report.sums.forEach((k, v) -> v = sums.get(k));
             return this;
         }
 
         public ReportLine build() {
             return report;
         }
-
     }
 
     public String getIban() {
@@ -76,20 +72,8 @@ public final class ReportLine {
         return cnp;
     }
 
-    public BigDecimal getIbanToIbanSum() {
-        return ibanToIbanSum;
-    }
-
-    public BigDecimal getIbanToWalletSum() {
-        return ibanToWalletSum;
-    }
-
-    public BigDecimal getWalletToIbanSum() {
-        return walletToIbanSum;
-    }
-
-    public BigDecimal getWalletToWalletSum() {
-        return walletToWalletSum;
+    public Map<TransactionType, BigDecimal> getSums() {
+        return Collections.unmodifiableMap(sums);
     }
 
     @Override
@@ -100,15 +84,7 @@ public final class ReportLine {
         return noOfTransactions == that.noOfTransactions &&
                 Objects.equals(iban, that.iban) &&
                 Objects.equals(cnp, that.cnp) &&
-                Objects.equals(ibanToIbanSum, that.ibanToIbanSum) &&
-                Objects.equals(ibanToWalletSum, that.ibanToWalletSum) &&
-                Objects.equals(walletToIbanSum, that.walletToIbanSum) &&
-                Objects.equals(walletToWalletSum, that.walletToWalletSum);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(iban, noOfTransactions, cnp, ibanToIbanSum, ibanToWalletSum, walletToIbanSum, walletToWalletSum);
+                Objects.equals(sums, that.sums);
     }
 
     @Override
@@ -116,13 +92,9 @@ public final class ReportLine {
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {
-            ReportLine lineDto = new ReportLine();
+            ReportLine lineDto = new ReportLine(this.sums);
             lineDto.cnp = this.cnp;
             lineDto.iban = this.iban;
-            lineDto.ibanToIbanSum = this.ibanToIbanSum;
-            lineDto.ibanToWalletSum = this.ibanToWalletSum;
-            lineDto.walletToIbanSum = this.walletToIbanSum;
-            lineDto.walletToWalletSum = this.walletToWalletSum;
             lineDto.noOfTransactions = this.noOfTransactions;
             return lineDto;
         }

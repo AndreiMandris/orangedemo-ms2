@@ -41,7 +41,7 @@ public class TransactionDto implements Serializable {
         return transaction;
     }
 
-    private static TransactionType resolveTransactionType(String type) {
+    public static TransactionType resolveTransactionType(String type) {
         for (TransactionType transactionType : TransactionType.values()) {
             if (transactionType.name().equals(type)) {
                 return transactionType;
